@@ -30,7 +30,7 @@ pipeline{
                 }
 
                 withCredentials([usernamePassword(credentialsId: 'docker-hub-Credentials', passwordVariable: 'password', usernameVariable: 'username')]) {
-                    sh 'docker build -t docker build -t khaledmohamedatia/node_app:${COMMIT} ./app/'
+                    sh 'docker build -t khaledmohamedatia/node_app:${COMMIT} ./app/'
                     sh 'docker login -p ${password} -u ${username}'
                     sh 'docker push khaledmohamedatia/node_app'
                 }
