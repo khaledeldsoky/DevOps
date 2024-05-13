@@ -10,7 +10,10 @@ pipeline{
     stages{
         
         stage(" Delete Workspace"){
-            cleanWs()
+            steps{
+                cleanWs()
+            }
+            
         }
         
         stage("Checkout Github"){
@@ -21,7 +24,7 @@ pipeline{
 
         stage("Push Docker Hub"){
             steps{
-                
+
                 script {
                     env.COMMIT = sh (script: 'git log -n 1 --pretty=format:"%h"', returnStdout: true)
                 }
@@ -35,7 +38,9 @@ pipeline{
         }
 
         stage("Trigger Parameters"){
-            build job: 'cd_job' , parameters : [string(name: 'COMMIt', defaultValue: env.COMMIT , description: 'trigger ')]
+            steps{
+                build job: 'cd_job' , parameters : [string(name: 'COMMIt', defaultValue: env.COMMIT , description: 'trigger ')]
+            }
         }
 
     }
