@@ -1,0 +1,5 @@
+- hosts: bastion
+  roles:
+    # - docker
+    # - jenkins
+    - kubectl-aws

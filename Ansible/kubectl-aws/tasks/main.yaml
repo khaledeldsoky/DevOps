@@ -1,0 +1,128 @@
+# ------------------------ kubectl ------------------------ #
+
+# - name: Download the latest release kubectl
+#   ansible.builtin.get_url:
+#     url: https://dl.k8s.io/release/{{ lookup('url', 'https://dl.k8s.io/release/stable.txt') }}/bin/linux/amd64/kubectl
+#     dest:  /usr/local/bin/kubectl
+#     mode: 0755
+#     owner: root
+#     group: root
+
+
+- name: install Prerequisites
+  ansible.builtin.apt:
+    name:
+      - apt-transport-https 
+      - ca-certificates
+      - curl
+    state: present
+
+- name: Add Helm GPG key 
+  ansible.builtin.apt_key:
+    url:   https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key 
+    state: present
+
+
+- name: Add Helm repository
+  ansible.builtin.apt_repository:
+    repo: deb https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /
+    state: present
+    update_cache: yes
+- name: install Helm
+  ansible.builtin.apt:
+    name:
+      - kubectl
+    state: present
+
+# ------------------------ طريقه تانيه ------------------------
+
+
+# # ------------------------ auto completion ------------------------ # #
+- name: Install bash-completion
+  apt:
+    name: bash-completion
+    state: present
+
+- name: Add kubectl completion script to .bashrc
+  lineinfile:
+    path: /home/ubuntu/.bashrc
+    line: 'source <(kubectl completion bash)'
+
+- name: Apply changes to .bashrc
+  ansible.builtin.shell: 'source /home/ubuntu/.bashrc'
+  args:
+    executable: /bin/bash
+# ------------------------ aws ------------------------ #
+# - name: install unzip
+#   ansible.builtin.apt:
+#     name:
+#       - unzip
+#       - tar
+#     state: present
+
+# - name: get url
+#   ansible.builtin.get_url:
+#     url: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+#     dest: /tmp/awscliv2.zip
+
+# - name: unarchive awscliv2.zip
+#   ansible.builtin.unarchive:
+#     src: '/tmp/awscliv2.zip'
+#     dest: '/tmp/'
+#     remote_src: yes
+    
+# - name: exec awscliv2
+#   ansible.builtin.shell: '/tmp/aws/install'
+#   args:
+#     executable: '/bin/bash'
+
+# ------------------------ طريقه تانيه ------------------------
+
+- name: install pip3
+  ansible.builtin.apt:
+    name:
+      - python3-pip
+    state: present
+    update_cache: yes
+
+- name: install aws
+  ansible.builtin.pip:
+    name:
+      - awscli
+    state: present
+
+# ------------------------ helm ------------------------ #
+# - name:  fetch  script
+#   ansible.builtin.get_url:
+#     url: https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+#     dest: /tmp/get-helm-3
+#     mode: 700
+    
+# - name: exec /tmp/get-helm-3
+#   ansible.builtin.shell: '/tmp/get-helm-3'
+#   args:
+#     executable: /bin/bash
+
+- name: install Prerequisites
+  ansible.builtin.apt:
+    name:
+      - apt-transport-https
+    state: present
+
+- name: Add Helm GPG key 
+  ansible.builtin.apt_key:
+    url:  https://baltocdn.com/helm/signing.asc 
+    state: present
+
+
+- name: Add Helm repository
+  ansible.builtin.apt_repository:
+    repo: deb [arch=amd64] https://baltocdn.com/helm/stable/debian/ all main
+    state: present
+
+- name: install Helm
+  ansible.builtin.apt:
+    name:
+      - helm
+      - s3fs 
+    state: present

@@ -1,0 +1,25 @@
+- name: install Prerequisites
+  ansible.builtin.apt:
+    name:
+      - openjdk-17-jdk
+
+- name: Add Jenkins GPG key 
+  ansible.builtin.apt_key:
+    url: https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+    state: present
+
+
+- name: Add Jenkins repository
+  ansible.builtin.apt_repository:
+    repo: deb https://pkg.jenkins.io/debian-stable binary/
+    state: present
+
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: yes
+
+- name: install Jenkins
+  ansible.builtin.apt:
+    name: jenkins
+    state: present
+
