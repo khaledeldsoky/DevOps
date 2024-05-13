@@ -33,7 +33,7 @@ pipeline{
         }
 
         stage("Trigger Parameters"){
-            build job: 'cd' , parameters : [string(name: 'COMMIt', defaultValue: env.COMMIT , description: 'trigger ')]
+            build job: 'cd_job' , parameters : [string(name: 'COMMIt', defaultValue: env.COMMIT , description: 'trigger ')]
         }
 
     }
