@@ -21,9 +21,11 @@ pipeline{
 
         stage("Push Docker Hub"){
             steps{
+                
                 script {
                     env.COMMIT = sh (script: 'git log -n 1 --pretty=format:"%h"', returnStdout: true)
                 }
+
                 withCredentials([usernamePassword(credentialsId: 'docker-hub-Credentials', passwordVariable: 'password', usernameVariable: 'username')]) {
                     sh 'docker build -t docker build -t khaledmohamedatia/node_app:${env.COMMIT} app/'
                     sh 'docker login -p${password} -u ${username}'
