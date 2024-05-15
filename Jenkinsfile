@@ -8,12 +8,11 @@ pipeline{
     }
 
     stages{
-        
+
         stage(" Delete Workspace"){
             steps{
                 cleanWs()
             }
-            
         }
         
         stage("Checkout Github"){
@@ -24,11 +23,9 @@ pipeline{
 
         stage("Push Docker Hub"){
             steps{
-
                 script {
                     env.COMMIT = sh (script: 'git log -n 1 --pretty=format:"%h"', returnStdout: true)
                 }
-
                 withCredentials([usernamePassword(credentialsId: 'docker-hub-Credentials', passwordVariable: 'password', usernameVariable: 'username')]) {
                     sh 'docker build -t khaledmohamedatia/node_app:${COMMIT} ./app/'
                     sh 'docker login -p ${password} -u ${username}'
