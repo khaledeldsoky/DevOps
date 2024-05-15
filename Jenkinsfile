@@ -17,7 +17,7 @@ pipeline{
         
         stage("Checkout Github"){
             steps{
-                checkout   branches: 'ci',  url: "https://github.com/khaledeldsoky/DevOps.git" 
+                git branch: 'ci', url: 'https://github.com/khaledeldsoky/DevOps_project.git' 
             }
         }
 
