@@ -34,6 +34,13 @@ pipeline{
             }
         }
 
+        stage('sonarqube'){
+            steps{
+                withSonarQubeEnv(installationName: 'sq' ,credentialsId: 'sonar') {
+                     sh './mvnw clean org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar'
+                }
+            }
+        }
         // stage("Trigger Parameters"){
         //     steps{
         //         build job: 'cd_job' , parameters : [string(name: 'COMMIt', defaultValue: env.COMMIT , description: 'trigger ')]
