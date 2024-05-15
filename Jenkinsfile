@@ -26,7 +26,7 @@ pipeline{
                 script {
                     env.COMMIT = sh (script: 'git log -n 1 --pretty=format:"%h"', returnStdout: true)
                 }
-                withCredentials([usernamePassword(credentialsId: 'docker hub', passwordVariable: 'password', usernameVariable: 'username')]) {
+                withCredentials([usernamePassword(credentialsId: 'docker_hub', passwordVariable: 'password', usernameVariable: 'username')]) {
                     sh 'docker build -t khaledmohamedatia/node_app:${COMMIT} ./app/'
                     sh 'docker login  -u ${username} -p ${password}'
                     sh 'docker push khaledmohamedatia/node_app:${COMMIT}'
