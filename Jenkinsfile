@@ -1,8 +1,9 @@
 pipeline{
 
     agent any
-
-
+    tools {
+        maven 'maven'
+    }
     parameters {
         string(name: 'COMMIT', defaultValue: env.COMMIT , description: 'docker tag from git commit')
     }
