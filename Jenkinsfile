@@ -17,7 +17,7 @@ pipeline{
         
         stage("Checkout Github"){
             steps{
-                checkout  scm: scmGit( branches: [[name: '*/ci']], userRemoteConfigs: [[ url: "https://github.com/khaledeldsoky/DevOps.git" ] ] )
+                checkout   branches: 'ci',  url: "https://github.com/khaledeldsoky/DevOps.git" 
             }
         }
 
@@ -26,9 +26,9 @@ pipeline{
                 script {
                     env.COMMIT = sh (script: 'git log -n 1 --pretty=format:"%h"', returnStdout: true)
                 }
-                withCredentials([usernamePassword(credentialsId: 'docker-hub-Credentials', passwordVariable: 'password', usernameVariable: 'username')]) {
+                withCredentials([usernamePassword(credentialsId: 'docker hub', passwordVariable: 'password', usernameVariable: 'username')]) {
                     sh 'docker build -t khaledmohamedatia/node_app:${COMMIT} ./app/'
-                    sh 'docker login -p ${password} -u ${username}'
+                    sh 'docker login  -u ${username} -p ${password}'
                     sh 'docker push khaledmohamedatia/node_app:${COMMIT}'
                 }
             }
