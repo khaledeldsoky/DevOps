@@ -39,6 +39,5 @@ pipeline{
                 build job: 'cd_job' , parameters : [string(name: 'COMMIt', defaultValue: env.COMMIT , description: 'trigger ')]
             }
         }
-
     }
 }
