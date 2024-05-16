@@ -37,16 +37,12 @@ pipeline{
         }
 
         stage('sonarqube'){
-            environment {
-                SCANNER_HOME = tool 'sq';    
-            }
-            
-            steps {
+                def scannerHome = tool 'sq';
                 withSonarQubeEnv('sq') {
-                    sh "${SCANNER_HOME}/bin/sonar-scanner"
+                    sh "${scannerHome}/bin/sonar-scanner"
                 }
-            }
         }
+ 
         // stage("Trigger Parameters"){
         //     steps{
         //         build job: 'cd_job' , parameters : [string(name: 'COMMIt', defaultValue: env.COMMIT , description: 'trigger ')]
@@ -56,3 +52,14 @@ pipeline{
     }
 }
 
+// node {
+//     stage('SCM') {
+//         checkout scm
+//     }
+//     stage('SonarQube Analysis') {
+//         def scannerHome = tool 'sq';
+//         withSonarQubeEnv() {
+//         sh "${scannerHome}/bin/sonar-scanner"
+//         }
+//     }
+// }
