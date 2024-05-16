@@ -46,6 +46,7 @@ pipeline{
             
             steps {
                 withSonarQubeEnv('sq') {
+                    env.SONAR_PROJECT_KEY = 'dVSFszfvzdfvz'
                     sh "${SCANNER_HOME}/bin/sonar-scanner"
                 }
             }
