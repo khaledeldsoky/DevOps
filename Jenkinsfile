@@ -45,10 +45,13 @@ pipeline{
             }
             
             steps {
-                withSonarQubeEnv('sq') {
-                    env.SONAR_PROJECT_KEY = 'dVSFszfvzdfvz'
-                    sh "${SCANNER_HOME}/bin/sonar-scanner"
+                script{
+                    withSonarQubeEnv('sq') {
+                        env.SONAR_PROJECT_KEY = 'dVSFszfvzdfvz'
+                        sh "${SCANNER_HOME}/bin/sonar-scanner"
+                    }
                 }
+
             }
         }
         // stage("Trigger Parameters"){
