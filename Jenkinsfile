@@ -4,7 +4,10 @@ pipeline{
     // tools {
     //     maven 'maven'
     // }
-       tools {nodejs "node"}
+       tools {
+        nodejs "node"
+        SonarQube Scanner "sq"
+        }
     parameters {
         string(name: 'COMMIT', defaultValue: env.COMMIT , description: 'docker tag from git commit')
     }
@@ -39,11 +42,11 @@ pipeline{
         stage('sonarqube'){
 
             environment {
-                SCANNER_HOME = tool 'SonarQubeScanner';    
+                SCANNER_HOME = tool 'sq';    
             }
             
             steps {
-                withSonarQubeEnv('SonarQube') {
+                withSonarQubeEnv('sq') {
                     sh "${SCANNER_HOME}/bin/sonar-scanner"
                 }
             }
