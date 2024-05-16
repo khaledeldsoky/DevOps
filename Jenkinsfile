@@ -37,16 +37,17 @@ pipeline{
         }
 
         stage('sonarqube'){
+
+            environment {
+                SCANNER_HOME = tool 'SonarQubeScanner';    
+            }
             
-            steps{
-                def scannerHome = tool 'sq';
-                withSonarQubeEnv('sq') {
-                    sh "${scannerHome}/bin/sonar-scanner"
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh "${SCANNER_HOME}/bin/sonar-scanner"
                 }
             }
-
         }
- 
         // stage("Trigger Parameters"){
         //     steps{
         //         build job: 'cd_job' , parameters : [string(name: 'COMMIt', defaultValue: env.COMMIT , description: 'trigger ')]
