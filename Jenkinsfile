@@ -35,15 +35,26 @@ pipeline{
             }
         }
 
-        stage('sonarqube'){
-            steps{
-                script{
-                    sh 'cd /var/jenkins_home/workspace/ci_pip'
-                    withSonarQubeEnv(installationName: 'sq' ,credentialsId: 'sonar') {
-                        sh 'sonar-scanner'
-                    }
-                }
+        // stage('sonarqube'){
+        //     steps{
+        //         script{
+        //             sh 'cd /var/jenkins_home/workspace/ci_pip'
+        //             withSonarQubeEnv(installationName: 'sq' ,credentialsId: 'sonar') {
+        //                 sh 'sonar-scanner'
+        //             }
+        //         }
 
+        //     }
+        // }
+        node {
+            stage('SCM') {
+                checkout scm
+            }
+            stage('SonarQube Analysis') {
+                def scannerHome = tool 'SonarScanner';
+                withSonarQubeEnv() {
+                sh "${scannerHome}/bin/sonar-scanner"
+                }
             }
         }
         // stage("Trigger Parameters"){
@@ -54,3 +65,4 @@ pipeline{
         
     }
 }
+
