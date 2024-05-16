@@ -38,20 +38,18 @@ pipeline{
             }
         }
 
-        stage('sonarqube'){
-
-            environment {
-                SCANNER_HOME = tool 'sq';    
-            }
-            
+        stage('SCM') {
             steps {
-                script{
-                    withSonarQubeEnv('sq') {
-                        env.SONAR_PROJECT_KEY = 'dVSFszfvzdfvz'
-                        sh "${SCANNER_HOME}/bin/sonar-scanner"
-                    }
-                }
+                checkout scm
+            }
+        }
 
+        stage('SonarQube Analysis') {
+            steps {
+                def scannerHome = tool 'sq';
+                withSonarQubeEnv() {
+                    sh "${scannerHome}/bin/sonar-scanner"
+                }
             }
         }
         // stage("Trigger Parameters"){
