@@ -6,7 +6,6 @@ pipeline{
     // }
        tools {
         nodejs "node"
-        SonarQube Scanner "sq"
         }
     parameters {
         string(name: 'COMMIT', defaultValue: env.COMMIT , description: 'docker tag from git commit')
