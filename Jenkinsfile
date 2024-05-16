@@ -37,10 +37,14 @@ pipeline{
         }
 
         stage('sonarqube'){
+            
+            steps{
                 def scannerHome = tool 'sq';
                 withSonarQubeEnv('sq') {
                     sh "${scannerHome}/bin/sonar-scanner"
                 }
+            }
+
         }
  
         // stage("Trigger Parameters"){
