@@ -37,10 +37,13 @@ pipeline{
 
         stage('sonarqube'){
             steps{
-                withSonarQubeEnv(installationName: 'sq' ,credentialsId: 'sonar') {
-                     sh 'cd /var/jenkins_home/workspace/ci_pip/app/'
-                     sh 'mvn clean org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar'
+                script{
+                    sh 'cd /var/jenkins_home/workspace/ci_pip'
+                    withSonarQubeEnv(installationName: 'sq' ,credentialsId: 'sonar') {
+                        sh 'mvn clean sonar:sonar'
+                    }
                 }
+
             }
         }
         // stage("Trigger Parameters"){
