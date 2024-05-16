@@ -40,7 +40,7 @@ pipeline{
                 script{
                     sh 'cd /var/jenkins_home/workspace/ci_pip'
                     withSonarQubeEnv(installationName: 'sq' ,credentialsId: 'sonar') {
-                        sh 'mvn clean sonar:sonar'
+                        sh 'mvn clean org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.1.3006:sonar'
                     }
                 }
 
