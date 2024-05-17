@@ -56,7 +56,6 @@ pipeline{
             }
         }
 
-
         stage('Scan Docker Image') {
             steps {
                 script {
