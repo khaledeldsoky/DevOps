@@ -58,7 +58,7 @@ pipeline{
 
         stage('Scan Docker Image') {
             steps {
-                sh 'trivy khaledmohamedatia/node_app:${COMMIT}'
+                sh 'trivy image khaledmohamedatia/node_app:${COMMIT}'
             }
         }
         
