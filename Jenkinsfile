@@ -58,7 +58,7 @@ pipeline{
 
         stage('Scan Docker Image') {
             steps {
-                sh 'trivy image --no-progress --scanners vuln  --exit-code 1khaledmohamedatia/node_app:${COMMIT}'
+                sh 'trivy image --no-progress --scanners vuln  --exit-code 1 khaledmohamedatia/node_app:${COMMIT}'
             }
         }
         
