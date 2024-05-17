@@ -19,9 +19,27 @@ pipeline{
             }
         }
         
+
         stage("Checkout Github"){
             steps{
                 git branch: 'ci', url: 'https://github.com/khaledeldsoky/DevOps_project.git' 
+            }
+        }
+
+        stage('SCM') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                script{
+                    def scannerHome = tool 'sq';
+                    withSonarQubeEnv() {
+                        sh "${scannerHome}/bin/sonar-scanner"
+                    }
+                }
             }
         }
 
@@ -38,18 +56,24 @@ pipeline{
             }
         }
 
-        stage('SCM') {
-            steps {
-                checkout scm
-            }
-        }
 
-        stage('SonarQube Analysis') {
+        stage('Scan Docker Image') {
             steps {
-                script{
-                    def scannerHome = tool 'sq';
-                    withSonarQubeEnv() {
-                        sh "${scannerHome}/bin/sonar-scanner"
+                script {
+                    // Run Trivy to scan the Docker image
+                    def trivyOutput = sh(script: "trivy image khaledmohamedatia/node_app:${COMMIT}", returnStdout: true).trim()
+
+                    // Display Trivy scan results
+                    println trivyOutput
+
+                    // Check if vulnerabilities were found
+                    if (trivyOutput.contains("Total: 0")) {
+                        echo "No vulnerabilities found in the Docker image."
+                    } else {
+                        echo "Vulnerabilities found in the Docker image."
+                        // You can take further actions here based on your requirements
+                        // For example, failing the build if vulnerabilities are found
+                        // error "Vulnerabilities found in the Docker image."
                     }
                 }
             }
