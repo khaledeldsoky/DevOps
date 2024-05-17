@@ -32,8 +32,8 @@ pipeline{
                 }
                 withCredentials([usernamePassword(credentialsId: 'docker_hub', passwordVariable: 'password', usernameVariable: 'username')]) {
                     sh 'docker build -t khaledmohamedatia/node_app:${COMMIT} ./app/'
-                    sh 'docker login  -u ${username} -p ${password}'
-                    sh 'docker push khaledmohamedatia/node_app:${COMMIT}'
+                    // sh 'docker login  -u ${username} -p ${password}'
+                    // sh 'docker push khaledmohamedatia/node_app:${COMMIT}'
                 }
             }
         }
@@ -43,7 +43,6 @@ pipeline{
                 checkout scm
             }
         }
-
         stage('SonarQube Analysis') {
             steps {
                 script{
