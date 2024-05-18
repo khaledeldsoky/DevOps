@@ -25,9 +25,11 @@ pipeline{
                 git branch: 'ci', url: 'https://github.com/khaledeldsoky/DevOps_project.git' 
             }
         }
-        
+
         stage('SCM') {
-                checkout scm
+            steps{
+                checkout scm                
+            }
         }
 
         stage('SonarQube Analysis') {
