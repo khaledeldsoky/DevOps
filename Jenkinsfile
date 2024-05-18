@@ -26,12 +26,6 @@ pipeline{
             }
         }
 
-        stage('SCM') {
-            steps {
-                checkout scm
-            }
-        }
-
         stage('SonarQube Analysis') {
             steps {
                 script{
@@ -43,15 +37,13 @@ pipeline{
             }
         }
 
-        stage("Push Docker Hub"){
+        stage("Build Docker Hub"){
             steps{
                 script {
                     env.COMMIT = sh (script: 'git log -n 1 --pretty=format:"%h"', returnStdout: true)
                 }
                 withCredentials([usernamePassword(credentialsId: 'docker_hub', passwordVariable: 'password', usernameVariable: 'username')]) {
                     sh 'docker build -t khaledmohamedatia/node_app:${COMMIT} ./app/'
-                    // sh 'docker login  -u ${username} -p ${password}'
-                    // sh 'docker push khaledmohamedatia/node_app:${COMMIT}'
                 }
             }
         }
@@ -61,7 +53,15 @@ pipeline{
                 sh 'trivy image --no-progress --scanners vuln  --exit-code 1 khaledmohamedatia/node_app:${COMMIT}'
             }
         }
-        
+
+        stage("Push Docker Hub"){
+            steps{
+                withCredentials([usernamePassword(credentialsId: 'docker_hub', passwordVariable: 'password', usernameVariable: 'username')]) {
+                    sh 'docker login  -u ${username} -p ${password}'
+                    sh 'docker push khaledmohamedatia/node_app:${COMMIT}'
+                }
+            }
+        }
         // stage("Trigger Parameters"){
         //     steps{
         //         build job: 'cd_job' , parameters : [string(name: 'COMMIt', defaultValue: env.COMMIT , description: 'trigger ')]
