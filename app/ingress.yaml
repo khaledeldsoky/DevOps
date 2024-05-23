@@ -13,7 +13,7 @@ spec:
   tls:
   - hosts:
     - myappkhaled.duckdns.org
-    secretName: app-tls-secret-kgq7q # cert-manager will create this secret
+    secretName: tls-secret # cert-manager will create this secret
   rules:
   - host: myappkhaled.duckdns.org
     http:
