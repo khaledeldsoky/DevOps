@@ -32,12 +32,12 @@ pipeline{
             steps {
                 withCredentials([usernamePassword(credentialsId: "github_token", usernameVariable: 'USER', passwordVariable: 'PASSWORD')]) {
                     sh """
-                    sh image_tag.sh app/deployment.yml ${params.GIT_COMMIT_REV}
+                    sh image_tag.sh app/deployment.yml ${params.COMMIt}
                     git config --global user.name ${USER_NAME}
                     git config --global user.email ${EMAIL}
                     git add .
                     if git status --porcelain | grep -q .; then
-                        git commit -m "from git commit ${params.GIT_COMMIT_REV}"
+                        git commit -m "from git commit ${params.COMMIt}"
                         git push https://${PASSWORD}@github.com/khaledeldsoky/DevOps.git HEAD:cd
                     else
                         echo "No changes to commit."
