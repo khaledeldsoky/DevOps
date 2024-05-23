@@ -38,7 +38,7 @@ pipeline{
                     git add .
                     if git status --porcelain | grep -q .; then
                         git commit -m "from git commit ${params.GIT_COMMIT_REV}"
-                        git push https://github.com/khaledeldsoky/DevOps.git HEAD:cd
+                        git push https://${PASSWORD}@github.com/khaledeldsoky/DevOps.git HEAD:cd
                     else
                         echo "No changes to commit."
 
