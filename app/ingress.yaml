@@ -10,10 +10,11 @@ metadata:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
+  ingressClassName: nginx
   tls:
   - hosts:
     - myappkhaled.duckdns.org
-    secretName: argocd-secret # cert-manager will create this secret
+    secretName: app-tls-secret-kgq7q  # cert-manager will create this secret
   rules:
   - host: myappkhaled.duckdns.org
     http:
