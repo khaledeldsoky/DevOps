@@ -1,5 +1,7 @@
 pipeline{
 
+    agent any
+
     parameters {
         string(name: 'COMMIt', defaultValue: env.COMMIt)
     }
