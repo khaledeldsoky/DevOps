@@ -4,10 +4,10 @@ pipeline{
     // tools {
     //     maven 'maven'
     // }
-       tools {
+    tools {
         nodejs "node"
-        }
-        
+    }
+
     parameters {
         string(name: 'COMMIT', defaultValue: env.COMMIT , description: 'docker tag from git commit')
     }
@@ -23,7 +23,7 @@ pipeline{
 
         stage("Checkout Github"){
             steps{
-                git branch: 'ci', url: 'https://github.com/khaledeldsoky/DevOps_project.git' 
+                git branch: 'ci', url: 'https://github.com/khaledeldsoky/DevOps.git' 
             }
         }
 
