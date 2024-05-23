@@ -3,7 +3,7 @@ pipeline{
     agent any
 
     parameters {
-        string(name: 'COMMIt', defaultValue: env.COMMIt)
+        string(name: 'COMMIT', defaultValue: env.COMMIT)
     }
 
     environment {
@@ -23,7 +23,7 @@ pipeline{
             steps {
                 script {
                     def commit_hash = readFile(file: "../ci_pip/commit.txt")
-                    env.COMMIt = commit_hash
+                    env.COMMIT = commit_hash
                 }
             }
         }
@@ -32,13 +32,13 @@ pipeline{
             steps {
                 withCredentials([usernamePassword(credentialsId: "github_token", usernameVariable: 'USER', passwordVariable: 'PASSWORD')]) {
                     sh """
-                    echo "${params.COMMIt}"
-                    sh image_tag.sh app/deployment.yml ${params.COMMIt}
+                    echo "${params.COMMIT}"
+                    sh image_tag.sh app/deployment.yml ${params.COMMIT}
                     git config --global user.name ${USER_NAME}
                     git config --global user.email ${EMAIL}
                     git add .
                     if git status --porcelain | grep -q .; then
-                        git commit -m "from git commit ${params.COMMIt}"
+                        git commit -m "from git commit ${params.COMMIT}"
                         git push https://${PASSWORD}@github.com/khaledeldsoky/DevOps.git HEAD:cd
                     else
                         echo "No changes to commit."
