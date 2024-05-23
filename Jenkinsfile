@@ -7,6 +7,7 @@ pipeline{
        tools {
         nodejs "node"
         }
+        
     parameters {
         string(name: 'COMMIT', defaultValue: env.COMMIT , description: 'docker tag from git commit')
     }
@@ -55,6 +56,12 @@ pipeline{
             }
         }
 
+        stage('Write Commit to File') {
+            steps {
+                writeFile file: "commit.txt", text: "${COMMIT}"
+            }
+        }
+
         stage('Scan Docker Image') {
             steps {
                 sh 'trivy image --no-progress --scanners vuln  --exit-code 1 khaledmohamedatia/node_app:${COMMIT}'
@@ -69,11 +76,11 @@ pipeline{
                 }
             }
         }
-        // stage("Trigger Parameters"){
-        //     steps{
-        //         build job: 'cd_job' , parameters : [string(name: 'COMMIt', defaultValue: env.COMMIT , description: 'trigger ')]
-        //     }
-        // }
+        stage("Trigger Parameters"){
+            steps{
+                build job: 'cd_job' , parameters : [string(name: 'COMMIt', defaultValue: env.COMMIT , description: 'trigger ')]
+            }
+        }
     }
 
     post{
