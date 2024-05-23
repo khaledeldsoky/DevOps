@@ -14,7 +14,7 @@ spec:
   tls:
   - hosts:
     - myappkhaled.duckdns.org
-    secretName: app-tls-secret-kgq7q  # cert-manager will create this secret
+    secretName: cert-cert-manager-webhook-ca   # cert-manager will create this secret
   rules:
   - host: myappkhaled.duckdns.org
     http:
