@@ -27,6 +27,7 @@ pipeline{
                 }
             }
         }
+khaledmohamedatia/node_app:${COMMIT}
 
         stage('Push Changes to GitHub') {
             steps {
@@ -48,9 +49,7 @@ pipeline{
             }
         }
 
-
     }
-
 
     post{
         failure{

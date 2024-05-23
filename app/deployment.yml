@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: khaledmohamedatia/app:d7cc35e
+        image: khaledmohamedatia/node_app:d7cc35e
         ports:
         - containerPort: 80
 
