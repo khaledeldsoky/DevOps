@@ -15,7 +15,7 @@ pipeline{
 
         stage("Checkout Github"){
             steps{
-                git branch: 'cd', url: 'https://github.com/khaledeldsoky/DevOps_project.git' 
+                git branch: 'cd', url: 'https://github.com/khaledeldsoky/DevOps.git' 
             }
         }
       
