@@ -22,7 +22,7 @@ pipeline{
         stage('Read Commit to File') {
             steps {
                 script {
-                    def commit_hash = readFile(file: "./var/lib/jenkins/workspace/ci_pip/commit.txt")
+                    def commit_hash = readFile(file: "/var/lib/jenkins/workspace/ci_pip/commit.txt")
                     env.COMMIT = commit_hash
                     sh "echo ${env.COMMIT}"
                 }
